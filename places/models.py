@@ -17,4 +17,4 @@ class Image(models.Model):
     place = models.ForeignKey('Place', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.id, self.place.title
+        return str(f'{self.id}, {self.place.title}')
