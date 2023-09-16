@@ -38,36 +38,11 @@
       width: 100px;
     }
   </style>
-  <script id="places-geojson" type="application/json">
-    {
-      "type": "FeatureCollection",
-      "features": [
-        {% for place in places %}
-          {
-            "type": "Feature",
-            "geometry": {
-              "type": "Point",
-              "coordinates": [{{place.lon}}, {{place.lat}}]
-            },
-            "properties": {
-              "title": "{{place.title}}",
-              "placeId": "{{place.id}}",
-              "detailsUrl": "place/{{place.id}}"
-            }
-        {% if places.last == place %}
-          }
-        {% else %}
-          },
-        {% endif %}
-        {% endfor %}
-      ]
-    }
-  </script>
-
+  {{ places|json_script:"places-geojson" }}
   <script id="app-template" type="text/template">
     <div v-bind:class="{'sidebar-content': 1, 'bg-white': selectedPlace, 'bg-secondary': !selectedPlace}">
       <div v-if="promptVisible" class="d-flex flex-column justify-content-center align-items-center" style="height: 100%;">
-        <img class="d-block select-place-prompt mb-4" src="{% static 'places/hand-pointer-regular.svg' %}" alt="Select place">
+        <img class="d-block select-place-prompt mb-4" src="{% static 'hand-pointer-regular.svg' %}" alt="Select place">
         <h4>Выберите место на карте</h4>
       </div>
 
@@ -82,9 +57,7 @@
         <img v-if="mainPhotoSrc" v-bind:src="mainPhotoSrc" class="d-block shadow mb-3 rounded" v-bind:alt="selectedPlace.title">
         {% verbatim %}
           <h5 class="mb-3">{{ selectedPlace.title }}</h5>
-        {% endverbatim %}
 
-        {% verbatim %}
           <p>{{ selectedPlace.short_description }}</p>
         {% endverbatim %}
 
