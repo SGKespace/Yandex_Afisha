@@ -1,11 +1,13 @@
 from django.db import models
 from django.utils.safestring import mark_safe
+from tinymce.models import HTMLField
+from django.utils.html import format_html
 
 
 class Place(models.Model):
     title = models.CharField('Название места', max_length=100)
-    description_short = models.CharField('Короткое описание', max_length=100)
-    description_long = models.TextField("Подробное описание")
+    short_description = models.TextField('Короткое описание', blank=True)
+    long_description = HTMLField("Подробное описание", blank=True)
     lat = models.FloatField('Широта')
     lon = models.FloatField('Долгота')
 
@@ -14,20 +16,22 @@ class Place(models.Model):
 
 
 class Image(models.Model):
-    image = models.ImageField('Изображение', null=True, blank=True, upload_to='')
+    image = models.ImageField('Изображение', upload_to='')
     place = models.ForeignKey(
-        'Place', related_name='place_image', on_delete=models.CASCADE)
-    position = models.PositiveIntegerField('Позиция', default=0, blank=False, null=False)
+        'Place', verbose_name='Место', related_name='images', on_delete=models.CASCADE)
+    position = models.PositiveIntegerField('Позиция', default=0)
 
     @property
     def image_preview(self):
         if self.image:
-            return mark_safe('<img src="{url}" width="400" height="300" />'.format(
-                url=self.image.url, ))
+            return format_html(
+                mark_safe('<img src="{}" style="max-height:300px">'),
+                self.image.url,
+                )
         return ""
 
     class Meta(object):
-        ordering = ['position']
+        ordering = ('position',)
 
     def __str__(self):
         return f'{self.id} {self.place.title}'
