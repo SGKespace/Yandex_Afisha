@@ -5,6 +5,8 @@
 <img width="1228" alt="image" src="https://github.com/SGKespace/sale_of_fish_bot/assets/55636018/6cd4d26f-0769-412c-b2fd-a765c6f35478">
 
 
+[Посмотреть как все работает](http://80.249.150.113:8080 )
+
 
 ## Требования к окружению 
 Уставновить [Python 3+](https://www.python.org/downloads/)    
