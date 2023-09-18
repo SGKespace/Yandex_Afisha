@@ -57,17 +57,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-CSRF_COOKIE_HTTPONLY = True
-SECURE_HSTS_SECONDS = 60
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
 
-SECURE_SSL_REDIRECT = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
-SECURE_HSTS_PRELOAD = True
 ROOT_URLCONF = 'where_to_go.urls'
 
 TEMPLATES = [
@@ -147,12 +137,3 @@ STATICFILES_DIRS = [
     '/var/www/static/',
 ]
 
-CORS_REPLACE_HTTPS_REFERER      = False
-HOST_SCHEME                     = "http://"
-SECURE_PROXY_SSL_HEADER         = None
-SECURE_SSL_REDIRECT             = False
-SESSION_COOKIE_SECURE           = False
-CSRF_COOKIE_SECURE              = False
-SECURE_HSTS_SECONDS             = None
-SECURE_HSTS_INCLUDE_SUBDOMAINS  = False
-SECURE_FRAME_DENY               = False
