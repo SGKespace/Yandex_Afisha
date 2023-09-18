@@ -22,7 +22,7 @@ class Image(models.Model):
     position = models.PositiveIntegerField('Позиция', default=0, blank=True, db_index=True)
 
     @property
-    def image_preview(self):
+    def preview_image(self):
         if self.image:
             return format_html(
                 mark_safe('<img src="{}" style="max-height:300px">'),
