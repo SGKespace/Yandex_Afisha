@@ -1,6 +1,6 @@
+from adminsortable2.admin import SortableInlineAdminMixin
 from django.contrib import admin
 from places.models import Place, Image
-from adminsortable2.admin import SortableInlineAdminMixin
 
 
 class PlaceImageInline(SortableInlineAdminMixin, admin.TabularInline):
