@@ -1,8 +1,8 @@
 import os
 from urllib.parse import urlparse
 
-from django.core.files.base import ContentFile
 import requests
+from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
 from places.models import Place, Image
 
