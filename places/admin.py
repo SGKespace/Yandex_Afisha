@@ -3,6 +3,12 @@ from django.contrib import admin
 from places.models import Place, Image
 
 
+class PreviewMixin(object):
+    def preview(self, image):
+        url = image.image.url
+        return format_html('<img src="{}" style="max-height: 200px;">', url)
+
+
 class PlaceImageInline(SortableInlineAdminMixin, admin.TabularInline):
     model = Image
     readonly_fields = ['image_preview', ]
