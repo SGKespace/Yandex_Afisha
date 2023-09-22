@@ -1,12 +1,6 @@
-from adminsortable2.admin import SortableInlineAdminMixin
 from django.contrib import admin
 from places.models import Place, Image
-
-
-class PreviewMixin(object):
-    def preview(self, image):
-        url = image.image.url
-        return format_html('<img src="{}" style="max-height: 200px;">', url)
+from adminsortable2.admin import SortableInlineAdminMixin
 
 
 class PlaceImageInline(SortableInlineAdminMixin, admin.TabularInline):
@@ -22,3 +16,8 @@ class PlaceImageInline(SortableInlineAdminMixin, admin.TabularInline):
 class PlaceAdmin(admin.ModelAdmin):
     search_fields = ['title', ]
     inlines = [PlaceImageInline, ]
+
+
+@admin.register(Image)
+class ImageAdmin(admin.ModelAdmin):
+    pass
