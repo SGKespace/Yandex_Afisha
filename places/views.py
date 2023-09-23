@@ -1,8 +1,9 @@
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
 from django.shortcuts import render
-from django.urls import reverse
 from places.models import Place
+from django.http import HttpResponseNotFound, JsonResponse
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
+from django.shortcuts import get_object_or_404
+from django.urls import reverse
 
 
 def index(request):
@@ -33,7 +34,7 @@ def index(request):
 
 
 def show_place(request, place_id):
-    requested_place = get_object_or_404(Place, id=place_id)
+    requested_place = get_object_or_404(Place.objects.prefetch_related('images'), id=place_id)
     images = [image.image.url for image in requested_place.images.all()]
     place = {
         'title': requested_place.title,
