@@ -1,7 +1,7 @@
 from django.db import models
+from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from tinymce.models import HTMLField
-from django.utils.html import format_html
 
 
 class Place(models.Model):
