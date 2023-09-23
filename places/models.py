@@ -21,6 +21,11 @@ class Image(models.Model):
         'Place', verbose_name='Место', related_name='images', on_delete=models.CASCADE)
     position = models.PositiveIntegerField('Позиция', default=0, db_index=True, blank=True)
 
+
+    class Meta(object):
+        ordering = ('position',)
+
+
     @property
     def get_preview(self):
         if self.image:
@@ -30,8 +35,6 @@ class Image(models.Model):
                 )
         return ""
 
-    class Meta(object):
-        ordering = ('position',)
 
     def __str__(self):
         return f'{self.id} {self.place.title}'
