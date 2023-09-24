@@ -20,5 +20,4 @@ class PlaceAdmin(admin.ModelAdmin):
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ('place', 'image', 'order', 'image_preview')
     raw_id_fields = ('place',)
