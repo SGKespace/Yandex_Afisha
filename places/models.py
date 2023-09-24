@@ -26,6 +26,10 @@ class Image(models.Model):
         ordering = ('position',)
 
 
+    def __str__(self):
+        return f'{self.id} {self.place.title}'
+
+
     @property
     def get_preview(self):
         if self.image:
