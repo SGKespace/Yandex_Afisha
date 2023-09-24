@@ -1,36 +1,38 @@
 import os
-from urllib.parse import urlparse
 
-from django.core.files.base import ContentFile
 import requests
+from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
+
 from places.models import Place, Image
 
 
 class Command(BaseCommand):
-    help = 'Create random users'
-
     def add_arguments(self, parser):
-        parser.add_argument('json_url', type=str, help='Json url')
-
-    def handle(self, *args, **kwargs):
-        json_url = kwargs['json_url']
-        response = requests.get(json_url)
-        response.raise_for_status()
-        place_raw = response.json()
-        place, created = Place.objects.get_or_create(
-            title=place_raw['title'],
-            
-            defaults={
-                "short_description": place_raw['description_short'],
-                "long_description": place_raw['description_long'],
-                "lat": place_raw['coordinates']['lat'],
-                "lon": place_raw['coordinates']['lng'],},
+        parser.add_argument(
+            'place_url',
+            type=str,
+            help='Ссылка на информацию о локации',
         )
 
-        for index, image_url in enumerate(place_raw['imgs']):
-            image_obj = Image.objects.create(place=place,)
-            image_response = requests.get(image_url)
-            image_response.raise_for_status()
-            image_content = ContentFile(image_response.content, name=filename)
-            Image.objects.create(place=place, image=image_content)
+    def handle(self, *args, **options):
+        url = options['place_url']
+        response = requests.get(url)
+        response.raise_for_status()
+        place = response.json()
+        new_place, _ = Place.objects.get_or_create(
+            title=place['title'],
+            defaults={
+                'short_description': place['description_short'],
+                'long_description': place['description_long'],
+                'lat': place['coordinates']['lat'],
+                'lon': place['coordinates']['lng'],
+            },
+        )
+
+        image_urls = place['imgs']
+        for image_url in image_urls:
+            response = requests.get(image_url)
+            response.raise_for_status()
+            image_content = ContentFile(response.content, name=os.path.split(image_url)[1])
+            Image.objects.create(place=new_place, image=image_content)
