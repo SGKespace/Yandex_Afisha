@@ -38,7 +38,3 @@ class Image(models.Model):
                 self.image.url,
                 )
         return ""
-
-
-    def __str__(self):
-        return f'{self.id} {self.place.title}'
