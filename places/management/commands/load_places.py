@@ -29,14 +29,8 @@ class Command(BaseCommand):
         )
 
         for index, image_url in enumerate(place_raw['imgs']):
-            image_obj = Image.objects.create(
-                place=place,
-            )
+            image_obj = Image.objects.create(place=place,)
             image_response = requests.get(image_url)
             image_response.raise_for_status()
-            image_content = ContentFile(image_response.content)
-            disassembled_url = urlparse(image_url)
-            filename, file_ext = os.path.splitext(
-                os.path.basename(disassembled_url.path))
-            image_obj.image.save(
-                f'{place.pk}-{index}.jpg', image_content, save=True)
+            image_content = ContentFile(image_response.content, name=filename)
+            Image.objects.create(place=place, image=image_content)
